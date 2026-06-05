@@ -62,35 +62,13 @@ MediLingua provides an automated pipeline that:
 
 ---
 
-## System Architecture
+## System Architecture/ Flowchart
 
-```text
-Doctor–Patient Conversation
-            │
-            ▼
-     Audio Recording
-            │
-            ▼
-       AssemblyAI
- (Transcription + Speaker Diarization)
-            │
-            ▼
-      Llama 3 via Groq
-        (Translation)
-            │
-            ▼
-      Llama 3 via Groq
-    (Clinical Summarization)
-            │
-            ▼
-      FastAPI Backend
-            │
-            ▼
-    MySQL / Firebase
-            │
-            ▼
-       Flutter Client
+```md
+<img width="1405" height="1119" alt="ChatGPT Image Jun 5, 2026, 10_47_24 PM" src="https://github.com/user-attachments/assets/f27b28e0-4ece-479e-b5b9-11a19ec8b3af" />
+
 ```
+
 
 ---
 
@@ -230,37 +208,20 @@ flutter run
 
 ## Screenshots
 
-### Login Page
 
-Add screenshot here.
 
 ```md
-![Login](screenshots/login.png)
+<img width="657" height="340" alt="pic11" src="https://github.com/user-attachments/assets/b282f401-d703-4502-9e03-38ccc7b1aadb" />
+
 ```
 
-### Patient Selection
+
 
 ```md
-![Patient Selection](screenshots/patient-selection.png)
+<img width="600" height="370" alt="pic21" src="https://github.com/user-attachments/assets/694cd6c1-52e2-4a1e-8aa8-36dd1ed36627" />
+
 ```
 
-### Consultation Recording
-
-```md
-![Consultation](screenshots/consultation.png)
-```
-
-### Live Transcript
-
-```md
-![Transcript](screenshots/transcript.png)
-```
-
-### Clinical Summary
-
-```md
-![Summary](screenshots/summary.png)
-```
 
 ---
 
