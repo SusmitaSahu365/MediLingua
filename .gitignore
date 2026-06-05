@@ -7,7 +7,10 @@ backend/medilingua.db
 backend/.env
 backend/*.py
 !backend/main_assembly.py
-
+backend/uploads/    
+backend/*.mp4       
+backend/**/*.mp4    
+*.mp4
 # ── Flutter ───────────────────────────────────────────────────
 mobile_app/.dart_tool/
 mobile_app/build/
