@@ -65,7 +65,7 @@ MediLingua provides an automated pipeline that:
 ## System Architecture/ Flowchart
 
 
-<img width="1405" height="1119" alt="ChatGPT Image Jun 5, 2026, 10_47_24 PM" src="https://github.com/user-attachments/assets/f27b28e0-4ece-479e-b5b9-11a19ec8b3af" />
+<img width="521" height="602" alt="ChatGPT Image Jun 5, 2026, 10_47_24 PM" src="https://github.com/user-attachments/assets/3c2e91eb-7cec-48a2-a9ef-6c1ad21cb9fa" />
 
 
 
@@ -211,13 +211,11 @@ flutter run
 
 
 
-<img width="657" height="340" alt="pic11" src="https://github.com/user-attachments/assets/b282f401-d703-4502-9e03-38ccc7b1aadb" />
+<img width="957" height="495" alt="pic1" src="https://github.com/user-attachments/assets/a7c22d5a-1ca1-4b37-b51b-cc3e140e7050" />
 
+  &nbsp;&nbsp;&nbsp;
 
-
-
-
-<img width="600" height="370" alt="pic21" src="https://github.com/user-attachments/assets/694cd6c1-52e2-4a1e-8aa8-36dd1ed36627" />
+<img width="812" height="501" alt="pic2" src="https://github.com/user-attachments/assets/d1d056bd-a0ee-429c-9a00-a3c15167dc77" />
 
 
 
