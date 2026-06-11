@@ -6,7 +6,7 @@ backend/*.pyo
 backend/medilingua.db
 backend/.env
 backend/*.py
-!backend/main_assembly.py
+!backend/mainassembly1.py
 backend/uploads/    
 backend/*.mp4       
 backend/**/*.mp4    
