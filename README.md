@@ -80,6 +80,11 @@ MediLingua provides an automated pipeline that:
 
 * Maintain prescription details alongside consultation records
 
+### PDF generation
+
+* Every visit summarization pdf or full report pdf is generated
+* This helps in tracking and getting particular patient histories
+
 ---
 
 ## System Architecture/ Flowchart
