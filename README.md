@@ -23,7 +23,11 @@ MediLingua provides an automated pipeline that:
 * Stores consultation records for future reference
 
 ---
+## Download
 
+[![Download APK](https://img.shields.io/badge/Download-APK-brightgreen)](https://github.com/yourusername/medilingua/releases/latest)
+
+> **Note:** On first launch, the backend may take ~30 seconds to respond (Render free tier cold start). Please wait before retrying.
 ## Features
 
 ### Consultation Recording
