@@ -21,7 +21,7 @@ from fastapi import FastAPI, HTTPException, Depends, status, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import jwt
-from passlib.context import CryptContext
+import bcrypt as _bcrypt_lib
 from pydantic import BaseModel
 from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime, ForeignKey
 from sqlalchemy.orm import declarative_base, sessionmaker, Session, relationship
@@ -154,16 +154,18 @@ def get_db():
 # ──────────────────────────────────────────────────────────────
 # AUTH
 # ──────────────────────────────────────────────────────────────
-pwd_context   = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 
 def hash_password(pw: str) -> str:
-    return pwd_context.hash(pw[:72].encode("utf-8"))
+    """Hash using bcrypt directly (passlib broken on Python 3.13+)."""
+    secret = pw[:72].encode("utf-8")
+    return _bcrypt_lib.hashpw(secret, _bcrypt_lib.gensalt()).decode("utf-8")
 
 
 def verify_password(plain: str, hashed: str) -> bool:
-    return pwd_context.verify(plain[:72].encode("utf-8"), hashed)
+    secret = plain[:72].encode("utf-8")
+    return _bcrypt_lib.checkpw(secret, hashed.encode("utf-8"))
 
 
 def create_access_token(data: dict) -> str:

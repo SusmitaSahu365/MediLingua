@@ -4,8 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/models.dart';
 
 class ApiService {
-   static const String baseUrl   = 'https://YOUR_RAILWAY_URL.up.railway.app';
-  static const String wsBaseUrl = 'ws://YOUR_RAILWAY_URL.up.railway.app';
+   static const String baseUrl   = 'https://medilingua-backend.onrender.com';
+  static const String wsBaseUrl = 'ws://https://medilingua-backend.onrender.com';
 
   static String? _token;
   static Doctor? _currentDoctor;
