@@ -1,6 +1,22 @@
-# MediLingua
+<p align="center">
+  <img src="https://img.shields.io/badge/Flutter-3.x-blue?logo=flutter" />
+  <img src="https://img.shields.io/badge/FastAPI-Python-009688?logo=fastapi" />
+  <img src="https://img.shields.io/badge/AssemblyAI-Speech--to--Text-purple" />
+  <img src="https://img.shields.io/badge/Groq-Llama%203-orange" />
+  <img src="https://img.shields.io/badge/MySQL-Database-blue?logo=mysql" />
+  <img src="https://img.shields.io/badge/Firebase-Realtime%20DB-yellow?logo=firebase" />
+  <img src="https://img.shields.io/badge/Platform-Android-green?logo=android" />
+</p>
 
-Multilingual Clinical Dialogue System for Automated Medical Documentation
+<h1 align="center">MediLingua</h1>
+
+<p align="center">
+<b>AI-Powered Multilingual Clinical Documentation System</b>
+</p>
+
+<p align="center">
+Transform multilingual doctor–patient conversations into structured English medical records using speech recognition, speaker diarization, translation, and LLM-powered clinical summarization.
+</p>
 
 ## Overview
 
