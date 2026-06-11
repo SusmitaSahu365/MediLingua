@@ -4,8 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/models.dart';
 
 class ApiService {
-  static const String baseUrl   = 'https://YOUR_RAILWAY_URL.up.railway.app';
-  static const String wsBaseUrl = 'ws://YOUR_RAILWAY_URL.up.railway.app';
+   static const String baseUrl   = 'http://100.113.210.35:8000';
+  static const String wsBaseUrl = 'ws://100.113.210.35:8000';
 
   static String? _token;
   static Doctor? _currentDoctor;
