@@ -680,7 +680,7 @@ async def transcribe_audio(
             speakers_expected=2,
             punctuate=True,
             format_text=True,
-            speech_models=["universal-3-pro"],
+            speech_model=aai.SpeechModel.best,
             language_detection=True,
         )
         transcript = aai.Transcriber().transcribe(tmp_path, config)
