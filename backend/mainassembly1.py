@@ -15,6 +15,8 @@ import tempfile
 from typing import Optional
 
 import assemblyai as aai
+import httpx
+import time
 from groq import Groq
 
 from fastapi import FastAPI, HTTPException, Depends, status, UploadFile, File
@@ -715,7 +717,7 @@ async def transcribe_audio(
                 break
             elif result["status"] == "error":
                 raise HTTPException(500, f"AssemblyAI error: {result['error']}")
-            import time; time.sleep(3)
+            time.sleep(3)
 
         utterances = result.get("utterances") or []
         print(f"[AssemblyAI] {len(utterances)} utterances, detected lang: {result.get('language_code')}")
