@@ -16,6 +16,7 @@ from typing import Optional
 
 import assemblyai as aai
 import httpx
+import requests
 import time
 from groq import Groq
 
@@ -680,17 +681,16 @@ async def transcribe_audio(
 
         # Upload audio file
         with open(tmp_path, "rb") as f:
-            upload_resp = httpx.post(
+            upload_resp = requests.post(
                 f"{AAI_BASE}/v2/upload",
                 headers=aai_headers,
-                content=f.read(),
-                timeout=60,
+                data=f.read(),
             )
         upload_resp.raise_for_status()
         audio_url = upload_resp.json()["upload_url"]
 
         # Submit transcription job
-        transcript_resp = httpx.post(
+        transcript_resp = requests.post(
             f"{AAI_BASE}/v2/transcript",
             headers=aai_headers,
             json={
@@ -702,7 +702,6 @@ async def transcribe_audio(
                 "format_text": True,
                 "language_detection": True,
             },
-            timeout=30,
         )
         transcript_resp.raise_for_status()
         transcript_id = transcript_resp.json()["id"]
@@ -710,9 +709,7 @@ async def transcribe_audio(
         # Poll until complete
         polling_url = f"{AAI_BASE}/v2/transcript/{transcript_id}"
         while True:
-            poll = httpx.get(polling_url, headers=aai_headers, timeout=30)
-            poll.raise_for_status()
-            result = poll.json()
+            result = requests.get(polling_url, headers=aai_headers).json()
             if result["status"] == "completed":
                 break
             elif result["status"] == "error":
