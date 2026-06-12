@@ -85,7 +85,6 @@ MediLingua provides an automated pipeline that:
 ## System Architecture/ Flowchart
 
 
-<img width="521" height="602" alt="ChatGPT Image Jun 5, 2026, 10_47_24 PM" src="https://github.com/user-attachments/assets/3c2e91eb-7cec-48a2-a9ef-6c1ad21cb9fa" />
 
 
 
