@@ -257,8 +257,6 @@ async def lifespan(app: FastAPI):
     global groq_client
     if not ASSEMBLYAI_API_KEY:
         print("[MediLingua] WARNING: ASSEMBLYAI_API_KEY not set in .env!")
-    else:
-        aai.settings.api_key = ASSEMBLYAI_API_KEY
         print("[MediLingua] AssemblyAI ready.")
     if not GROQ_API_KEY:
         print("[MediLingua] WARNING: GROQ_API_KEY not set in .env!")
@@ -674,22 +672,53 @@ async def transcribe_audio(
     print(f"[AssemblyAI] {len(audio_bytes)/1024:.1f}KB received")
 
     try:
-        # ── Step 1: AssemblyAI transcription + diarization ────
-        config = aai.TranscriptionConfig(
-            speaker_labels=True,
-            speakers_expected=2,
-            punctuate=True,
-            format_text=True,
-            speech_model=aai.SpeechModel.best,
-            language_detection=True,
+        # ── Step 1: AssemblyAI transcription + diarization (direct REST API) ────
+        AAI_BASE = "https://api.assemblyai.com"
+        aai_headers = {"authorization": ASSEMBLYAI_API_KEY}
+
+        # Upload audio file
+        with open(tmp_path, "rb") as f:
+            upload_resp = httpx.post(
+                f"{AAI_BASE}/v2/upload",
+                headers=aai_headers,
+                content=f.read(),
+                timeout=60,
+            )
+        upload_resp.raise_for_status()
+        audio_url = upload_resp.json()["upload_url"]
+
+        # Submit transcription job
+        transcript_resp = httpx.post(
+            f"{AAI_BASE}/v2/transcript",
+            headers=aai_headers,
+            json={
+                "audio_url": audio_url,
+                "speech_models": ["universal-3-pro", "universal-2"],
+                "speaker_labels": True,
+                "speakers_expected": 2,
+                "punctuate": True,
+                "format_text": True,
+                "language_detection": True,
+            },
+            timeout=30,
         )
-        transcript = aai.Transcriber().transcribe(tmp_path, config)
+        transcript_resp.raise_for_status()
+        transcript_id = transcript_resp.json()["id"]
 
-        if transcript.status == aai.TranscriptStatus.error:
-            raise HTTPException(500, f"AssemblyAI error: {transcript.error}")
+        # Poll until complete
+        polling_url = f"{AAI_BASE}/v2/transcript/{transcript_id}"
+        while True:
+            poll = httpx.get(polling_url, headers=aai_headers, timeout=30)
+            poll.raise_for_status()
+            result = poll.json()
+            if result["status"] == "completed":
+                break
+            elif result["status"] == "error":
+                raise HTTPException(500, f"AssemblyAI error: {result['error']}")
+            import time; time.sleep(3)
 
-        utterances = transcript.utterances or []
-        print(f"[AssemblyAI] {len(utterances)} utterances, detected lang: {transcript.language_code}")
+        utterances = result.get("utterances") or []
+        print(f"[AssemblyAI] {len(utterances)} utterances, detected lang: {result.get('language_code')}")
 
         # Clear old segments
         db.query(TranscriptSegmentDB).filter_by(session_id=session_id).delete()
@@ -700,17 +729,17 @@ async def transcribe_audio(
 
         for utt in utterances:
             # Map A/B → Speaker 1/2
-            raw = utt.speaker
+            raw = utt.get("speaker", "A")
             if raw not in speaker_map:
                 speaker_map[raw] = f"Speaker {counter}"
                 counter += 1
             speaker      = speaker_map[raw]
-            original_txt = utt.text.strip()
+            original_txt = (utt.get("text") or "").strip()
             if not original_txt:
                 continue
 
-            start_ts = _ms_to_ts(utt.start)
-            end_ts   = _ms_to_ts(utt.end)
+            start_ts = _ms_to_ts(utt.get("start", 0))
+            end_ts   = _ms_to_ts(utt.get("end", 0))
 
             # ── Step 2: Groq translation ──────────────────────
             english_txt, detected_lang = translate_to_english(original_txt)
